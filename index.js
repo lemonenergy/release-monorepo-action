@@ -1,6 +1,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const { exec } = require('@actions/exec')
+const { Octokit } = require('@octokit/rest')
 
 const fs = require('fs')
 
@@ -9,7 +10,7 @@ const actor = process.env.GITHUB_ACTOR
 const repository = process.env.GITHUB_REPOSITORY
 const remote = `https://${actor}:${githubToken}@github.com/${repository}.git`
 
-const octokit = new github.getOctokit(githubToken)
+const octokit = new Octokit({ auth: githubToken })
 
 const getBaseVersions = async (base, initial) => {
   const { context } = github
