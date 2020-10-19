@@ -1,0 +1,25 @@
+name: 'release-monorepo-action'
+description: 'release monorepo'
+
+inputs:
+  base-branch:
+    description: 'branch in which release will be merged'
+    required: true
+    default: 'master'
+
+  head-branch:
+    description: 'branch to be released'
+    required: true
+    default: 'develop'
+
+  github-token:
+    description: 'github token with access to commit in head-branch'
+    required: true
+
+  initial-version:
+    description: 'initial version used if base-branch doesn`t have package.json'
+    default: '0.0.0'
+
+runs:
+  using: 'node12'
+  main: 'index.js'
