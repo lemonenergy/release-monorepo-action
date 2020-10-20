@@ -28,7 +28,7 @@ const getBaseVersions = async (base, initial) => {
         path: `packages/${packageName}/package.json`,
       })
 
-      const content = Buffer.from(pkgFile.data.content, 'base64')
+      const content = Buffer.from(pkgFile.data.content, 'base64').toString()
 
       const { version } = JSON.parse(content)
       return {
