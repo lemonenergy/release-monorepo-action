@@ -22,18 +22,13 @@ const getBaseVersions = async (base, initial) => {
     const packagePath = `${packagesPath}/${packageName}`
     if (!fs.statSync(packagePath).isDirectory()) return
     try {
-      console.log({
-        ...context.repo,
-        ref: base,
-        path: `packages/${packageName}/package.json`,
-      })
       const pkgFile = await octokit.repos.getContent({
         ...context.repo,
         ref: base,
         path: `packages/${packageName}/package.json`,
       })
 
-      const content = Buffer.from(pkgFile.data.content, 'base64')
+      const content = Buffer.from(pkgFile.data.content, 'base64').toString()
 
       const { version } = JSON.parse(content)
       return {
