@@ -87,10 +87,8 @@ const run = async () => {
 
     await forceBaseVersions(baseVersions)
     console.log(`forced base versions in packages`)
-    exec('git show-ref --tags')
     await bump()
     console.log(`bumped packages!`)
-    exec('git show-ref --tags')
     await pushBumpedVersionAndTag(head)
     console.log(`pushed release!`)
   } catch (e) {
