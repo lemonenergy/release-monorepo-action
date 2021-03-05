@@ -83,10 +83,14 @@ const run = async () => {
     await configGit(head)
     const baseVersions = await getBaseVersions(base, initialVersion)
     console.log(`fetched base versions`, baseVersions)
+    exec('git show-ref --tags')
+
     await forceBaseVersions(baseVersions)
     console.log(`forced base versions in packages`)
+    exec('git show-ref --tags')
     await bump()
     console.log(`bumped packages!`)
+    exec('git show-ref --tags')
     await pushBumpedVersionAndTag(head)
     console.log(`pushed release!`)
   } catch (e) {
