@@ -36,7 +36,6 @@ const getBaseVersions = async (base, initial) => {
         [packageName]: version || initial,
       }
     } catch (e) {
-      console.log(e)
       return baseVersions
     }
   }, {})

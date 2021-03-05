@@ -12,6 +12,6 @@ jobs:
         with:
           node-version: 12.x
       - name: bump version and merge it on develop
-        uses: lemonenergy/release-action@v1.0.1
+        uses: lemonenergy/release-action@master
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
