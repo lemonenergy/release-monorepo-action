@@ -58,7 +58,7 @@ const forceBaseVersions = baseVersions => {
 
 const bump = async () => {
   await exec(
-    `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag`,
+    `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag --include-merged-tags`,
   )
 }
 
