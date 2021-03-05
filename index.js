@@ -46,11 +46,11 @@ const forceBaseVersions = baseVersions => {
     Object.entries(baseVersions).map(async ([packageName, version]) => {
       const path = `./packages/${packageName}/package.json`
       const headPackage = JSON.parse(fs.readFileSync(path))
+      if (headPackage.version === version) return
       headPackage.version = version
       const forcedBasePackage = JSON.stringify(headPackage)
       fs.unlinkSync(path)
       fs.writeFileSync(path, forcedBasePackage)
-
       return exec(`git commit -a --amend --no-edit`)
     }),
   )
