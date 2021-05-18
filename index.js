@@ -19,7 +19,7 @@ const deleteTags = async baseVersions => {
     .then(response => response.data.map(tag => tag.name.split('@')))
 
   const tagsToDelete = tags.filter(
-    ([tag, version]) => version > baseVersions[tag],
+    ([package, version]) => version > baseVersions[package],
   )
 
   console.log(`tags to delete`, tagsToDelete)
