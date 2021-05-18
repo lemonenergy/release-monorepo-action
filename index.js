@@ -12,6 +12,28 @@ const remote = `https://${actor}:${githubToken}@github.com/${repository}.git`
 
 const octokit = new Octokit({ auth: githubToken })
 
+const deleteTags = async baseVersions => {
+  const { context } = github
+  const tags = await octokit.repos
+    .listTags(context.repo)
+    .then(response => response.data.map(tag => tag.name.split('@')))
+
+  const tagsToDelete = tags.filter(
+    ([package, version]) => version > baseVersions[package],
+  )
+
+  console.log(`tags to delete`, tagsToDelete)
+
+  await Promise.all(
+    tagsToDelete.map(tag =>
+      octokit.git.deleteRef({
+        ...context.repo,
+        ref: `tags/${tag.join('@')}`,
+      }),
+    ),
+  )
+}
+
 const getBaseVersions = async (base, initial) => {
   const { context } = github
 
@@ -33,10 +55,13 @@ const getBaseVersions = async (base, initial) => {
       const { version } = JSON.parse(content)
       return {
         ...baseVersions,
-        [packageName]: version || initial,
+        [packageName]: version,
       }
     } catch (e) {
-      return baseVersions
+      return {
+        ...baseVersions,
+        [packageName]: initial,
+      }
     }
   }, {})
 }
@@ -58,7 +83,7 @@ const forceBaseVersions = baseVersions => {
 
 const bump = async () => {
   await exec(
-    `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag --include-merged-tags`,
+    `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag`,
   )
 }
 
@@ -78,13 +103,11 @@ const run = async () => {
   const base = core.getInput('base-branch')
   const head = core.getInput('head-branch')
   const initialVersion = core.getInput('initial-version')
-
   try {
-    await configGit(head)
     const baseVersions = await getBaseVersions(base, initialVersion)
+    await deleteTags(baseVersions)
+    await configGit(head)
     console.log(`fetched base versions`, baseVersions)
-    exec('git show-ref --tags')
-
     await forceBaseVersions(baseVersions)
     console.log(`forced base versions in packages`)
     await bump()

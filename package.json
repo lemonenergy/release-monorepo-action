@@ -1,17 +1,14 @@
 {
-  "name": "release-monorepo",
-  "version": "1.3.3",
-  "description": "",
+  "name": "release-monorepo-action",
+  "version": "1.4.0",
+  "description": "Github action that provides support for bumping multiples packages of a monorepo.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "author": "Lemon Energy",
+  "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.2.7",
     "@actions/exec": "^1.0.4",
-    "@actions/github": "^4.0.0",
-    "@octokit/rest": "^18.3.3"
+    "@actions/github": "^5.0.0",
+    "@octokit/rest": "^18.5.3"
   }
 }
