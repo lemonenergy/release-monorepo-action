@@ -6,7 +6,7 @@ Github action that provides support for bumping multiples packages of a monorepo
 
 | Name           | Description                                                   | Required | Default |
 | -------------- | ------------------------------------------------------------- | -------- | ------- |
-| base-branch    | Branch in which release will be merged                        | true     | master  |
+| base-branch    | Branch in which release will be merged                        | true     | main  |
 | head-branch    | Branch to be released                                         | true     | develop |
 | github-token   | Github token with access to commit in head-branch             | true     |         |
 | initial-branch | Initial version used if base-branch doesn't have package.json | false    | 0.0.0   |
