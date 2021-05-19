@@ -5,7 +5,7 @@ inputs:
   base-branch:
     description: 'branch in which release will be merged'
     required: true
-    default: 'master'
+    default: 'main'
 
   head-branch:
     description: 'branch to be released'
