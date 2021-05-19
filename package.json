@@ -1,6 +1,6 @@
 {
   "name": "release-monorepo-action",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "Github action that provides support for bumping multiples packages of a monorepo.",
   "main": "index.js",
   "author": "Lemon Energy",
