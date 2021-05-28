@@ -17,6 +17,7 @@ const deleteTags = async baseVersions => {
   const tags = await octokit.repos
     .listTags(context.repo)
     .then(response => response.data.map(tag => tag.name.split('@')))
+  console.log(`fetched tags`, tags)
 
   const tagsToDelete = tags.filter(
     ([package, version]) => version > baseVersions[package],
@@ -41,23 +42,23 @@ const getBaseVersions = async (base, initial) => {
   const packagesNames = fs.readdirSync(packagesPath)
 
   return packagesNames.reduce(async (baseVersions, packageName) => {
-    const packagePath = `${packagesPath}/${packageName}`
-    if (!fs.statSync(packagePath).isDirectory()) return
     try {
-      const pkgFile = await octokit.repos.getContent({
-        ...context.repo,
-        ref: base,
-        path: `packages/${packageName}/package.json`,
-      })
-
-      const content = Buffer.from(pkgFile.data.content, 'base64').toString()
-
-      const { version } = JSON.parse(content)
+      const { version } = await octokit.repos
+        .getContent({
+          ...context.repo,
+          ref: base,
+          path: `packages/${packageName}/package.json`,
+        })
+        .then(response =>
+          Buffer.from(response.data.content, 'base64').toString(),
+        )
+        .then(response => JSON.parse(response))
       return {
-        ...baseVersions,
+        ...(await baseVersions),
         [packageName]: version,
       }
     } catch (e) {
+      console.log(e)
       return {
         ...baseVersions,
         [packageName]: initial,
@@ -105,9 +106,9 @@ const run = async () => {
   const initialVersion = core.getInput('initial-version')
   try {
     const baseVersions = await getBaseVersions(base, initialVersion)
+    console.log(`fetched base versions`, baseVersions)
     await deleteTags(baseVersions)
     await configGit(head)
-    console.log(`fetched base versions`, baseVersions)
     await forceBaseVersions(baseVersions)
     console.log(`forced base versions in packages`)
     await bump()
