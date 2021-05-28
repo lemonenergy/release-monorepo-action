@@ -20,10 +20,17 @@ const deleteTags = async baseVersions => {
   console.log(`fetched tags`, tags)
 
   const tagsToDelete = tags.filter(
-    ([package, version]) => version > baseVersions[package],
+    ([, package, version]) =>
+      version >
+      baseVersions[
+        package.includes('-') ? package.split('-')[1] : package.split('/')[1]
+      ],
   )
 
-  console.log(`tags to delete`, tagsToDelete)
+  console.log(
+    `tags to delete`,
+    tagsToDelete.map(tag => tag.join('@')),
+  )
 
   await Promise.all(
     tagsToDelete.map(tag =>
