@@ -17,13 +17,20 @@ const deleteTags = async baseVersions => {
   const tags = await octokit.repos
     .listTags(context.repo)
     .then(response => response.data.map(tag => tag.name.split('@')))
-  console.log(`fetched tags`, tagsToDelete)
+  console.log(`fetched tags`, tags)
 
   const tagsToDelete = tags.filter(
-    ([package, version]) => version > baseVersions[package],
+    ([, package, version]) =>
+      version >
+      baseVersions[
+        package.includes('-') ? package.split('-')[1] : package.split('/')[1]
+      ],
   )
 
-  console.log(`tags to delete`, tagsToDelete)
+  console.log(
+    `tags to delete`,
+    tagsToDelete.map(tag => tag.join('@')),
+  )
 
   await Promise.all(
     tagsToDelete.map(tag =>
