@@ -81,7 +81,7 @@ const forceBaseVersions = baseVersions => {
       const headPackage = JSON.parse(fs.readFileSync(path))
       if (headPackage.version === version) return
       headPackage.version = version
-      const forcedBasePackage = JSON.stringify(headPackage)
+      const forcedBasePackage = JSON.stringify(headPackage, null, 2)
       fs.unlinkSync(path)
       fs.writeFileSync(path, forcedBasePackage)
       return exec(`git commit -a --amend --no-edit`)
