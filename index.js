@@ -74,8 +74,8 @@ const getBaseVersions = async (base, initial) => {
   }, {})
 }
 
-const forceBaseVersions = baseVersions => {
-  return Promise.all(
+const forceBaseVersions = async baseVersions => {
+  await Promise.all(
     Object.entries(baseVersions).map(async ([packageName, version]) => {
       const path = `./packages/${packageName}/package.json`
       const headPackage = JSON.parse(fs.readFileSync(path))
@@ -84,9 +84,9 @@ const forceBaseVersions = baseVersions => {
       const forcedBasePackage = JSON.stringify(headPackage, null, 2)
       fs.unlinkSync(path)
       fs.writeFileSync(path, forcedBasePackage)
-      return exec(`git commit -a --amend --no-edit`)
     }),
   )
+  return exec(`git commit -a --amend --no-edit`)
 }
 
 const bump = async () => {
