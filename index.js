@@ -92,7 +92,9 @@ const forceBaseVersions = async baseVersions => {
 const bump = async (workspaces) => {
   let execCommand = `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag`
 
-  if (workspaces) execCommand += " --sync-workspace-lock"
+  // Actions metadata inputs are string values
+  // https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#inputsinput_iddefault
+  if (workspaces && workspaces == 'true') execCommand += " --sync-workspace-lock"
 
   await exec(
    execCommand,
