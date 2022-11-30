@@ -89,9 +89,13 @@ const forceBaseVersions = async baseVersions => {
   return exec(`git commit -a --amend --no-edit`)
 }
 
-const bump = async () => {
+const bump = async (workspaces) => {
+  let execCommand = `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag`
+
+  if (workspaces) execCommand += " --sync-workspace-lock"
+
   await exec(
-    `npx lerna version --conventional-commits --create-release github --no-push --yes --force-git-tag`,
+   execCommand,
   )
 }
 
@@ -111,6 +115,7 @@ const run = async () => {
   const base = core.getInput('base-branch')
   const head = core.getInput('head-branch')
   const initialVersion = core.getInput('initial-version')
+  const workspaces = core.getInput('workspaces')
   try {
     const baseVersions = await getBaseVersions(base, initialVersion)
     console.log(`fetched base versions`, baseVersions)
@@ -118,7 +123,7 @@ const run = async () => {
     await configGit(head)
     await forceBaseVersions(baseVersions)
     console.log(`forced base versions in packages`)
-    await bump()
+    await bump(workspaces)
     console.log(`bumped packages!`)
     await pushBumpedVersionAndTag(head)
     console.log(`pushed release!`)
