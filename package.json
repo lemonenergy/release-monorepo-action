@@ -6,9 +6,9 @@
   "author": "Lemon Energy",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.7",
-    "@actions/exec": "^1.0.4",
-    "@actions/github": "^5.0.0",
-    "@octokit/rest": "^18.5.3"
+    "@actions/core": "^1.10.0",
+    "@actions/exec": "^1.1.1",
+    "@actions/github": "^5.1.1",
+    "@octokit/rest": "^19.0.5"
   }
 }
