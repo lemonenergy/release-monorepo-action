@@ -17,12 +17,8 @@ inputs:
     required: true
 
   initial-version:
-    description: 'initial version used if base-branch doesn't have package.json'
+    description: "initial version used if base-branch doesn't have package.json"
     default: '0.0.0'
-
-  workspaces:
-    description: 'add --sync-workspace-lock flag which is recommended when working with workspaces'
-    default: false
 
 runs:
   using: 'node12'

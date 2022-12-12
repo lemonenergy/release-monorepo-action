@@ -4,13 +4,12 @@ Github action that provides support for bumping multiples packages of a monorepo
 
 ## Inputs
 
-| Name           | Description                                                                      | Required | Default |
-| -------------- | -------------------------------------------------------------------------------- | -------- | ------- |
-| base-branch    | Branch in which release will be merged                                           | true     | main    |
-| head-branch    | Branch to be released                                                            | true     | develop |
-| github-token   | Github token with access to commit in head-branch                                | true     |         |
-| initial-branch | Initial version used if base-branch doesn't have package.json                    | false    | 0.0.0   |
-| workspaces     | add --sync-workspace-lock flag which is recommended when working with workspaces | false    | false   |
+| Name           | Description                                                   | Required | Default |
+| -------------- | ------------------------------------------------------------- | -------- | ------- |
+| base-branch    | Branch in which release will be merged                        | true     | main  |
+| head-branch    | Branch to be released                                         | true     | develop |
+| github-token   | Github token with access to commit in head-branch             | true     |         |
+| initial-branch | Initial version used if base-branch doesn't have package.json | false    | 0.0.0   |
 
 ## Usage
 
