@@ -22,7 +22,7 @@ inputs:
 
   workspaces:
     description: 'add --sync-workspace-lock flag which is recommended when working with workspaces'
-    default: false
+    default: 'false'
 
 runs:
   using: 'node12'
